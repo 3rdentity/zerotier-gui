@@ -15,6 +15,10 @@ public class Controller {
 		return root;
 	}
 	
+	protected void setNode(Node n) {
+		root = n;
+	}
+	
 	public Pane getPane() {
 		Node n = getNode();
 		if (n instanceof Pane) {
@@ -27,7 +31,7 @@ public class Controller {
 		Node n = FxLoader.load(clazz);
 		Controller c = FxLoader.getController(n);
 		if (c != null)
-			c.root = n;
+			c.setNode(n);
 		return n;
 	}
 	

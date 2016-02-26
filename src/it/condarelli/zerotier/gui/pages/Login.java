@@ -14,7 +14,7 @@ public class Login extends Controller {
 	@FXML TextField	tfKey;
 	@FXML Text			txtError;
 
-	ZTService				zts;
+	static ZTService				zts;
 
 	@FXML
 	public void onLogin() {
@@ -30,5 +30,9 @@ public class Login extends Controller {
 		} else {
 			fire("LOG.OK");
 		}
+	}
+	
+	static ZTService getService() {
+		return zts;
 	}
 }

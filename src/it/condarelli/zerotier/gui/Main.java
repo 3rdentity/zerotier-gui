@@ -1,5 +1,6 @@
 package it.condarelli.zerotier.gui;
 
+import it.condarelli.zerotier.gui.pages.Dispatcher;
 import it.condarelli.zerotier.gui.pages.Login;
 import it.condarelli.zerotier.gui.pages.Status;
 import javafx.application.Application;
@@ -58,12 +59,12 @@ public class Main extends Application {
 					}
 					return null;
 				}
-
-				private void registerDispatcher(Node n) {
-					// TODO Auto-generated method stub
-					
-				}
 			});
+	}
+
+	private void registerDispatcher(Node n) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public static void main(String[] args) {

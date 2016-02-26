@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.Group?>
+
+<?import org.tbee.javafx.scene.layout.fxml.MigPane?>
+
+<MigPane xmlns:fx="http://javafx.com/fxml/1" layout="hidemode 3, wrap 2, fillx, debug" cols="[right][left, grow]">
+	<Label text="URL:" />
+	<TextField fx:id="tfURL" MigPane.cc="grow" text="http://127.0.0.1:10000" />
+	<Label text="Key:" />
+	<TextField fx:id="tfKey" MigPane.cc="grow" text="0nktesq0w2gk9oyaxmr11ni4" />
+	<Button text="OK" onAction="#onLogin" MigPane.cc="span, right" />
+	<Text fx:id="txtError" visible="false" MigPane.cc="span, right" />
+</MigPane>
+

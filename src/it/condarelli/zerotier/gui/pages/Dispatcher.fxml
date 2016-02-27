@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<?import org.tbee.javafx.scene.layout.fxml.MigPane?>
+
+<MigPane fx:id="mpDispatcher" cols="[right][left, grow][]"
+	layout="fillx, wrap 3" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Label text="Instance Id:" />
+		<Text fx:id="txtInstanceId" text="...instance id..." />
+		<ImageView fx:id="ivOK" >
+			<image>
+				<Image url="@icons/24x24/dialog-question-2.png" />
+			</image>
+		</ImageView>
+		<ComboBox fx:id="cbNetworks" onAction="#onSelectNet" MigPane.cc="span 2, grow" />
+		<Button fx:id="btnRefresh" onAction="#onRefresh">
+			<graphic>
+				<ImageView >
+					<image>
+						<Image url="@icons/16x16/view-refresh-3.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+		<MigPane fx:id="mpNetwork" cols="[][right, grow][]" layout="ins 0, wrap 3"
+			MigPane.cc="span, grow">
+			<children>
+
+				<Label text="Short name:" />
+				<TextField fx:id="tfName" text="...name..." />
+				<ToggleButton fx:id="btnPrivate" onAction="#onTogglePrivate">
+					<graphic>
+						<ImageView fx:id="ivPrivate">
+							<image>
+								<Image url="@icons/16x16/object-locked.png" />
+							</image>
+						</ImageView>
+					</graphic>
+					<tooltip>
+						<Tooltip
+							text="Locked means this is a private network. All new peers will need authorization."
+							wrapText="true" />
+					</tooltip>
+				</ToggleButton>
+
+				<Label text="IPv4 assign mode:" />
+				<ComboBox fx:id="cbAssignModeV4" onAction="#onSelectAMV4">
+					<items>
+						<FXCollections fx:factory="observableArrayList">
+							<String fx:value="none" />
+							<String fx:value="zt" />
+							<String fx:value="dhcp" />
+						</FXCollections>
+					</items>
+				</ComboBox>
+				<ToggleButton fx:id="tbBroadcast" onAction="#onToggleBroadcast">
+					<graphic>
+						<ImageView fx:id="ivBroadcast">
+							<image>
+								<Image url="@icons/16x16/irkickoff.png" />
+							</image>
+						</ImageView>
+					</graphic>
+					<tooltip>
+						<Tooltip text="Allow broadacating on this network."
+							wrapText="true" />
+					</tooltip>
+				</ToggleButton>
+
+				<Label text="IPv6 assign mode:" />
+				<ComboBox fx:id="cbAssignModeV6" onAction="#onSelectAMV6">
+					<items>
+						<FXCollections fx:factory="observableArrayList">
+							<String fx:value="none" />
+							<String fx:value="zt" />
+							<String fx:value="dhcp" />
+						</FXCollections>
+					</items>
+				</ComboBox>
+				<ToggleButton fx:id="tbBridging" onAction="#onToggleBridging">
+					<graphic>
+						<ImageView fx:id="ivBridging">
+							<image>
+								<Image url="@icons/16x16/link-break.png" />
+							</image>
+						</ImageView>
+					</graphic>
+					<tooltip>
+						<Tooltip text="Allow bridging on this network." wrapText="true" />
+					</tooltip>
+				</ToggleButton>
+			</children>
+		</MigPane>
+		<MigPane cols="0:push[right][right][right]" layout="ins 0, wrap 3"
+			MigPane.cc="span, grow">
+			<children>
+				<Button text="Del">
+					<graphic>
+						<ImageView >
+							<image>
+								<Image url="@icons/16x16/document-close-4.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+				<Button text="New">
+					<graphic>
+						<ImageView >
+							<image>
+								<Image url="@icons/16x16/document-new-6.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+				<Button text="Save">
+					<graphic>
+						<ImageView >
+							<image>
+								<Image url="@icons/16x16/document-save-6.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+			</children>
+		</MigPane>
+	</children>
+</MigPane>

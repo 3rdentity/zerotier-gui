@@ -39,6 +39,9 @@ public class Main extends Application {
 						Node n = Controller.create(Status.class);
 						root.setTop(n);
 						registerStatus(n);
+						n = Controller.create(Dispatcher.class);
+						root.setBottom(n);
+						registerDispatcher(n);
 					}
 					return null;
 				}
@@ -63,8 +66,20 @@ public class Main extends Application {
 	}
 
 	private void registerDispatcher(Node n) {
-		// TODO Auto-generated method stub
-
+		Controller c = FxLoader.getController(n);
+		if (c != null)
+			c.register(new Callback<String, String>() {
+				@Override
+				public String call(String param) {
+					switch (param) {
+					case "CTR.PRESENT":
+						Node n = Controller.create(Dispatcher.class);
+						root.setCenter(n);
+						registerDispatcher(n);
+					}
+					return null;
+				}
+			});
 	}
 
 	public static void main(String[] args) {

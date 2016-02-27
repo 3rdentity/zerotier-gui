@@ -20,10 +20,18 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.3</version>
         <configuration>
-          <source/>
-          <target/>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.miglayout</groupId>
+  		<artifactId>miglayout-javafx</artifactId>
+  		<version>5.1-SNAPSHOT</version>
+  		<type>jar</type>
+  	</dependency>
+  </dependencies>
 </project>

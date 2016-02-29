@@ -1,35 +1,42 @@
 package it.condarelli.zerotier.gui.pages;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-import org.controlsfx.validation.decoration.StyleClassValidationDecoration;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import com.github.edouardswiac.zerotier.ZTService;
+import com.github.edouardswiac.zerotier.api.ZTCMember;
 import com.github.edouardswiac.zerotier.api.ZTCNetwork;
 import com.github.edouardswiac.zerotier.api.ZTController;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
+import javafx.util.Callback;
 
 public class Controller extends FxController {
 	private final class ChangeHandler implements ChangeListener<Object> {
@@ -56,6 +63,17 @@ public class Controller extends FxController {
 	@FXML private Button						btnDel;
 	@FXML private Button						btnNew;
 	@FXML private Button						btnSave;
+
+	@FXML MigPane										mpMembers;
+	@FXML Text											txtMember;
+	@FXML ImageView									ivMOK;
+	@FXML ComboBox<ZTCMember>				cbMembers;
+	@FXML Button										btnMRefresh;
+	@FXML MigPane										mpMember;
+	@FXML CheckBox									cbAuthorized;
+	@FXML CheckBox									cbBridging;
+	@FXML ListView<String>					lvIPs;
+	@FXML ListView<String>					lvLog;
 
 	private ZTService								zts;
 	private ZTCNetwork							ztcn;
@@ -114,17 +132,23 @@ public class Controller extends FxController {
 	@FXML
 	void onRefresh() {
 		String s = cbNetworks.getSelectionModel().getSelectedItem();
-		List<String> nets = zts.getCNetworks();
-		cbNetworks.setItems(FXCollections.observableArrayList(nets));
-		if (nets.contains(s)) {
-			cbNetworks.getSelectionModel().select(s);
-			setButtons();
+		if (s != null && !s.trim().isEmpty()) {
+			getMembers();
+			mpMembers.setVisible(true);
 		} else {
-			cbNetworks.getSelectionModel().select(null);
-			mpNetwork.setVisible(false);
-			setButtons(false);
+			mpMembers.setVisible(false);
+			List<String> nets = zts.getCNetworks();
+			cbNetworks.setItems(FXCollections.observableArrayList(nets));
+			if (nets.contains(s)) {
+				cbNetworks.getSelectionModel().select(s);
+				setButtons();
+			} else {
+				cbNetworks.getSelectionModel().select(null);
+				mpNetwork.setVisible(false);
+				setButtons(false);
+			}
+			ivOK.setImage(new Image(getClass().getResourceAsStream("icons/16x16/dialog-ok-apply-4.png")));
 		}
-		ivOK.setImage(new Image(getClass().getResourceAsStream("icons/16x16/dialog-ok-apply-4.png")));
 	}
 
 	@FXML
@@ -230,7 +254,8 @@ public class Controller extends FxController {
 	void onDel() {
 		Alert dlg = createAlert(AlertType.CONFIRMATION);
 		dlg.setTitle("Delete Network");
-		dlg.getDialogPane().setContentText(String.format("Network '%s' (%s) \nwill be DESTROYED, are you SURE?", ztcn.getName(), ztcn.getNwid()));
+		dlg.getDialogPane().setContentText(
+				String.format("Network '%s' (%s) \nwill be DESTROYED, are you SURE?", ztcn.getName(), ztcn.getNwid()));
 		dlg.getDialogPane().setHeaderText("Destroy current Network?");
 		if (ztcn == null) {
 			(new Alert(AlertType.ERROR, "Current ZTCNetwork is null; nothing to delete!")).showAndWait();
@@ -305,6 +330,56 @@ public class Controller extends FxController {
 		dlg.initModality(Modality.APPLICATION_MODAL);
 		// dlg.initOwner(owner);
 		return dlg;
+	}
+
+	private void getMembers() {
+		if (ztcn != null) {
+			Map<String, Integer>	ml = zts.getCMembers(ztcn.getNwid());
+			List<ZTCMember> members = new ArrayList<>(ml.size());
+			for (String s : ml.keySet()) {
+				ZTCMember m = zts.getCMember(ztcn.getNwid(), s);
+				members.add(m);
+			}
+			Callback<ListView<ZTCMember>, ListCell<ZTCMember>> cf = new Callback<ListView<ZTCMember>, ListCell<ZTCMember>>() {
+				@Override
+				public ListCell<ZTCMember> call(ListView<ZTCMember> list) {
+					return new ListCell<ZTCMember>() {
+						@Override
+						protected void updateItem(ZTCMember member, boolean empty) {
+							super.updateItem(member, empty);
+							if (member == null | empty) {
+								setText(null);
+							} else {
+								Pane pane = new HBox();
+								if (member.isAuthorized()) {
+									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/dialog-accept.png").toExternalForm()));
+								} else {
+									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/dialog-block.png").toExternalForm()));
+								}
+								if (member.isActiveBridge()) {
+									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/irkickflash.png").toExternalForm()));
+								} else {
+									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/irkickoff.png").toExternalForm()));
+								}
+								setGraphic(pane);
+								setText(member.getAddress());
+							}
+						}
+					};
+				}
+			};
+			cbMembers.setButtonCell(cf.call(null));
+			cbMembers.setCellFactory(cf);
+			cbMembers.setItems(FXCollections.observableArrayList(members));
+		}
+	}
+
+	@FXML
+	public void onSelectMember() {
+	}
+
+	@FXML
+	public void onMRefresh() {
 	}
 
 }

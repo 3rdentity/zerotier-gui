@@ -12,22 +12,26 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.Text?>
 <?import org.tbee.javafx.scene.layout.fxml.MigPane?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
 
 <MigPane fx:id="mpDispatcher" cols="[right][left, grow][]"
-	layout="fillx, wrap 3" xmlns="http://javafx.com/javafx/8.0.65"
+	layout="ins panel, fillx, wrap 3" xmlns="http://javafx.com/javafx/8.0.65"
 	xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<Label text="Instance Id:" />
 		<Text fx:id="txtInstanceId" text="...instance id..." />
-		<ImageView fx:id="ivOK" >
+		<ImageView fx:id="ivOK">
 			<image>
 				<Image url="@icons/24x24/dialog-question-2.png" />
 			</image>
 		</ImageView>
-		<ComboBox fx:id="cbNetworks" onAction="#onSelectNet" MigPane.cc="span 2, grow" />
+		<ComboBox fx:id="cbNetworks" onAction="#onSelectNet"
+			MigPane.cc="span 2, grow" />
 		<Button fx:id="btnRefresh" onAction="#onRefresh">
 			<graphic>
-				<ImageView >
+				<ImageView>
 					<image>
 						<Image url="@icons/16x16/view-refresh-3.png" />
 					</image>
@@ -108,7 +112,7 @@
 			<children>
 				<Button text="Del" fx:id="btnDel" onAction="#onDel">
 					<graphic>
-						<ImageView >
+						<ImageView>
 							<image>
 								<Image url="@icons/16x16/document-close-4.png" />
 							</image>
@@ -117,7 +121,7 @@
 				</Button>
 				<Button text="New" fx:id="btnNew" onAction="#onNew">
 					<graphic>
-						<ImageView >
+						<ImageView>
 							<image>
 								<Image url="@icons/16x16/document-new-6.png" />
 							</image>
@@ -126,7 +130,7 @@
 				</Button>
 				<Button text="Save" fx:id="btnSave" onAction="#onSave">
 					<graphic>
-						<ImageView >
+						<ImageView>
 							<image>
 								<Image url="@icons/16x16/document-save-6.png" />
 							</image>
@@ -134,6 +138,38 @@
 					</graphic>
 				</Button>
 			</children>
+		</MigPane>
+		<MigPane visible="false" fx:id="mpMembers" cols="[right, grow][]" layout="wrap 2"
+			MigPane.cc="dock east, hidemode 2">
+			<Text text="...member..." fx:id="txtMember" MigPane.cc="grow" />
+			<ImageView fx:id="ivMOK">
+				<image>
+					<Image url="@icons/24x24/dialog-question-2.png" />
+				</image>
+			</ImageView>
+
+			<ComboBox fx:id="cbMembers" onAction="#onSelectMember"
+				MigPane.cc="grow" />
+			<Button fx:id="btnMRefresh" onAction="#onMRefresh">
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="@icons/16x16/view-refresh-3.png" />
+						</image>
+					</ImageView>
+				</graphic>
+			</Button>
+			<MigPane fx:id="mpMember" cols="[right, grow]" layout="ins 0, wrap 2"
+				MigPane.cc="span, growx">
+				<CheckBox text="Authorized" fx:id="cbAuthorized" MigPane.cc="span, grow" />
+				<CheckBox text="Bridging" fx:id="cbBridging" MigPane.cc="span, grow" />
+				<TitledPane text="IP Assign" MigPane.cc="span, grow" >
+					<ListView fx:id="lvIP" MigPane.cc="span, growx" />
+				</TitledPane>
+				<TitledPane text="Last log" expanded="false" MigPane.cc="span, grow" >
+					<ListView fx:id="lvLog" MigPane.cc="span, growx" />
+				</TitledPane>
+			</MigPane>
 		</MigPane>
 	</children>
 </MigPane>

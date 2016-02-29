@@ -40,7 +40,7 @@
 
 				<Label text="Short name:" />
 				<TextField fx:id="tfName" text="...name..." />
-				<ToggleButton fx:id="btnPrivate" onAction="#onTogglePrivate">
+				<ToggleButton fx:id="tbPrivate" onAction="#onTogglePrivate">
 					<graphic>
 						<ImageView fx:id="ivPrivate">
 							<image>
@@ -106,7 +106,7 @@
 		<MigPane cols="0:push[right][right][right]" layout="ins 0, wrap 3"
 			MigPane.cc="span, grow">
 			<children>
-				<Button text="Del">
+				<Button text="Del" fx:id="btnDel" onAction="#onDel">
 					<graphic>
 						<ImageView >
 							<image>
@@ -115,7 +115,7 @@
 						</ImageView>
 					</graphic>
 				</Button>
-				<Button text="New">
+				<Button text="New" fx:id="btnNew" onAction="#onNew">
 					<graphic>
 						<ImageView >
 							<image>
@@ -124,7 +124,7 @@
 						</ImageView>
 					</graphic>
 				</Button>
-				<Button text="Save">
+				<Button text="Save" fx:id="btnSave" onAction="#onSave">
 					<graphic>
 						<ImageView >
 							<image>

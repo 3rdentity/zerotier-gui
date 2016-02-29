@@ -1,4 +1,4 @@
-package it.condarelli.zerotier.gui;
+package it.condarelli.zerotier.gui.pages;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
-public class Controller {
+public class FxController {
 	protected Node root = null;
 	protected List<Callback<String, String>> listeners = new LinkedList<>(); 
 	
@@ -27,9 +27,9 @@ public class Controller {
 		return null;
 	}
 	
-	static public Node create(Class<? extends Controller> clazz) {
+	static public Node create(Class<? extends FxController> clazz) {
 		Node n = FxLoader.load(clazz);
-		Controller c = FxLoader.getController(n);
+		FxController c = FxLoader.getController(n);
 		if (c != null)
 			c.setNode(n);
 		return n;

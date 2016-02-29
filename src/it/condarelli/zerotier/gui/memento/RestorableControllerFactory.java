@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import it.condarelli.zerotier.gui.FxLoader;
+import it.condarelli.zerotier.gui.pages.FxLoader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 

@@ -8,7 +8,6 @@ import com.github.edouardswiac.zerotier.ZTService;
 import com.github.edouardswiac.zerotier.api.ZTNet;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
 
-import it.condarelli.zerotier.gui.Controller;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -18,7 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
-public class Status extends Controller {
+public class Status extends FxController {
 	@FXML Text						txtAddress;
 	@FXML Text						txtVersion;
 	@FXML Text						txtWorldId;

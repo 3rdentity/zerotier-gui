@@ -1,4 +1,4 @@
-package it.condarelli.zerotier.gui;
+package it.condarelli.zerotier.gui.pages;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,17 +52,17 @@ public class FxLoader {
 		return null;
 	}
 	
-	public static Controller getController(Node n) {
+	public static FxController getController(Node n) {
 		Object o = rootMap.get(n);
-		if (o instanceof Controller)
-			return (Controller) o;
+		if (o instanceof FxController)
+			return (FxController) o;
 		return null;
 	}
 	
-	public static Controller getController(URL u) {
+	public static FxController getController(URL u) {
 		Object o = controllerMap.get(u);
-		if (o instanceof Controller)
-			return (Controller) o;
+		if (o instanceof FxController)
+			return (FxController) o;
 		return null;
 	}
 	

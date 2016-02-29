@@ -1,6 +1,8 @@
 package it.condarelli.zerotier.gui;
 
-import it.condarelli.zerotier.gui.pages.Dispatcher;
+import it.condarelli.zerotier.gui.pages.FxController;
+import it.condarelli.zerotier.gui.pages.Controller;
+import it.condarelli.zerotier.gui.pages.FxLoader;
 import it.condarelli.zerotier.gui.pages.Login;
 import it.condarelli.zerotier.gui.pages.Status;
 import javafx.application.Application;
@@ -17,11 +19,12 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			root = (BorderPane) FxLoader.load(MainWindow.class);
-			Node n = Controller.create(Login.class);
+			Node n = FxController.create(Login.class);
 			registerLogin(n);
 			root.setTop(n);
 			Scene scene = new Scene(root, 400, 400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("validation.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception e) {
@@ -30,16 +33,16 @@ public class Main extends Application {
 	}
 
 	private void registerLogin(Node n) {
-		Controller c = FxLoader.getController(n);
+		FxController c = FxLoader.getController(n);
 		if (c != null)
 			c.register(new Callback<String, String>() {
 				@Override
 				public String call(String param) {
 					if (param.equals("LOG.OK")) {
-						Node n = Controller.create(Status.class);
+						Node n = FxController.create(Status.class);
 						root.setTop(n);
 						registerStatus(n);
-						n = Controller.create(Dispatcher.class);
+						n = FxController.create(Controller.class);
 						root.setBottom(n);
 						registerDispatcher(n);
 					}
@@ -49,14 +52,14 @@ public class Main extends Application {
 	}
 
 	private void registerStatus(Node n) {
-		Controller c = FxLoader.getController(n);
+		FxController c = FxLoader.getController(n);
 		if (c != null)
 			c.register(new Callback<String, String>() {
 				@Override
 				public String call(String param) {
 					switch (param) {
 					case "CTR.PRESENT":
-						Node n = Controller.create(Dispatcher.class);
+						Node n = FxController.create(Controller.class);
 						root.setCenter(n);
 						registerDispatcher(n);
 					}
@@ -66,14 +69,14 @@ public class Main extends Application {
 	}
 
 	private void registerDispatcher(Node n) {
-		Controller c = FxLoader.getController(n);
+		FxController c = FxLoader.getController(n);
 		if (c != null)
 			c.register(new Callback<String, String>() {
 				@Override
 				public String call(String param) {
 					switch (param) {
 					case "CTR.PRESENT":
-						Node n = Controller.create(Dispatcher.class);
+						Node n = FxController.create(Controller.class);
 						root.setCenter(n);
 						registerDispatcher(n);
 					}

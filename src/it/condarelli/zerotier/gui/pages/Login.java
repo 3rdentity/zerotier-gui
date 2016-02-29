@@ -4,17 +4,17 @@ import com.github.edouardswiac.zerotier.ZTService;
 import com.github.edouardswiac.zerotier.ZTServiceImpl;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
 
-import it.condarelli.zerotier.gui.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class Login extends Controller {
-	@FXML TextField	tfURL;
-	@FXML TextField	tfKey;
-	@FXML Text			txtError;
+public class Login extends FxController {
+	@FXML TextField						tfURL;
+	@FXML TextField						tfKey;
+	@FXML Text								txtError;
 
-	static ZTService				zts;
+	private static ZTService	zts;
+	private static String			ztca;
 
 	@FXML
 	public void onLogin() {
@@ -28,11 +28,16 @@ public class Login extends Controller {
 			root.setVisible(true);
 			fire("LOG.FAIL");
 		} else {
+			ztca = s.getAddress();
 			fire("LOG.OK");
 		}
 	}
-	
+
 	static ZTService getService() {
 		return zts;
+	}
+
+	static String getControllerAddress() {
+		return ztca;
 	}
 }

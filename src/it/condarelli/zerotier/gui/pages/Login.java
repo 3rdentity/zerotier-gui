@@ -5,6 +5,7 @@ import com.github.edouardswiac.zerotier.ZTServiceImpl;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -16,6 +17,13 @@ public class Login extends FxController {
 	private static ZTService	zts;
 	private static String			ztca;
 
+	@Override
+	protected void setNode(Node n) {
+		super.setNode(n);
+		tfURL.setText("https://zerotier.condarelli.it:47443/api");
+		tfKey.setText("0nktesq0w2gk9oyaxmr11ni4");
+	}
+	
 	@FXML
 	public void onLogin() {
 		root.setVisible(false);

@@ -18,7 +18,7 @@
 	<Label text="Online:" /><Text text="...online..." fx:id="txtOnline" />
 	<MigPane fx:id="mpNets" layout="fillx, ins 0, wrap 2" MigPane.cc="span, grow" cols="[grow][]" >
 		<ComboBox fx:id="cbNets" onAction="#onSelect" MigPane.cc="grow"/><Button text="Refresh" onAction="#onRefresh" />
-		<MigPane fx:id="mpNet" layout="fillx, ins 0, wrap 4, debug" MigPane.cc="span, grow" cols="[right][left, grow, fill]20[right][left, grow, fill]" >
+		<MigPane fx:id="mpNet" layout="fillx, ins 0, wrap 4" MigPane.cc="span, grow" cols="[right][left, grow, fill]20[right][left, grow, fill]" >
 			<Label text="Name:" /><Text text="...name..." fx:id="txtNName" MigPane.cc="" />
 			<Label text="Net Id:" /><Text text="...net id..." fx:id="txtNId" />
 			<Label text="Status:" /><Text text="...status..." fx:id="txtNStatus" />

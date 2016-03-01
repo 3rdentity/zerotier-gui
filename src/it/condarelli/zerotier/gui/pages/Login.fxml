@@ -11,9 +11,9 @@
 
 <MigPane xmlns:fx="http://javafx.com/fxml/1" layout="hidemode 3, wrap 2, fillx" cols="[right][left, grow]">
 	<Label text="URL:" />
-	<TextField fx:id="tfURL" MigPane.cc="grow" text="http://127.0.0.1:10000" />
+	<TextField fx:id="tfURL" MigPane.cc="grow" />
 	<Label text="Key:" />
-	<TextField fx:id="tfKey" MigPane.cc="grow" text="0nktesq0w2gk9oyaxmr11ni4" />
+	<TextField fx:id="tfKey" MigPane.cc="grow" />
 	<Button text="OK" onAction="#onLogin" MigPane.cc="span, right" />
 	<Text fx:id="txtError" visible="false" MigPane.cc="span, right" />
 </MigPane>

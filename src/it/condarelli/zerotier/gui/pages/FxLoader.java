@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,16 +12,16 @@ public class FxLoader {
 	protected static Map<URL, Object>		controllerMap	= new HashMap<>();
 	protected static Map<Node, Object>	rootMap				= new HashMap<>();
 
-	public static Node load(URL url, ResourceBundle rb) {
-		FXMLLoader l = new FXMLLoader(url, rb);
-		return doLoad(l, url);
-	}
-
-	public static Node load(URL url) {
-		FXMLLoader l = new FXMLLoader(url);
-		return doLoad(l, url);
-	}
-
+//	public static Node load(URL url, ResourceBundle rb) {
+//		FXMLLoader l = new FXMLLoader(url, rb);
+//		return doLoad(l, url);
+//	}
+//
+//	public static Node load(URL url) {
+//		FXMLLoader l = new FXMLLoader(url);
+//		return doLoad(l, url);
+//	}
+//
 	public static Node load(Class<?> clazz) {
 		try {
 			Object c;

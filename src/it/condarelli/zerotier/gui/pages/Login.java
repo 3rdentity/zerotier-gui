@@ -4,32 +4,33 @@ import com.github.edouardswiac.zerotier.ZTService;
 import com.github.edouardswiac.zerotier.ZTServiceImpl;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
 
+import it.condarelli.zerotier.gui.memento.Memento;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class Login extends FxController {
-	protected static String titile = "Login";
+public class Login extends FxDialog {
 	
+	protected Login() {
+		super("Login");
+	}
+
 	@FXML TextField						tfURL;
 	@FXML TextField						tfKey;
 	@FXML Text								txtError;
 
-	private static ZTService	zts;
-	private static String			ztca;
+//	@Override
+//	protected void setNode(Node n) {
+//		super.setNode(n);
+//		tfURL.setText("https://zerotier.condarelli.it:47443/api");
+//		tfKey.setText("0nktesq0w2gk9oyaxmr11ni4");
+//	}
 
-	@Override
-	protected void setNode(Node n) {
-		super.setNode(n);
-		tfURL.setText("https://zerotier.condarelli.it:47443/api");
-		tfKey.setText("0nktesq0w2gk9oyaxmr11ni4");
-	}
-	
 	@FXML
 	public void onLogin() {
 		root.setVisible(false);
-		zts = new ZTServiceImpl(tfURL.getText(), tfKey.getText());
+		ZTService zts = new ZTServiceImpl(tfURL.getText(), tfKey.getText());
+		FxAdapter.provide(zts, ZTService.class);
 		ZTStatus s = zts.status();
 		if (s == null || !s.isOnline()) {
 			zts = null;
@@ -38,16 +39,20 @@ public class Login extends FxController {
 			root.setVisible(true);
 			fire("LOG.FAIL");
 		} else {
-			ztca = s.getAddress();
+			FxAdapter.provide(s);
 			fire("LOG.OK");
 		}
 	}
 
-	static ZTService getService() {
-		return zts;
+	@Override
+	public void doRestore(Memento m) {
+		tfURL.setText(m.getChild("URL").getText());
+		tfKey.setText(m.getChild("Key").getText());
 	}
 
-	static String getControllerAddress() {
-		return ztca;
+	@Override
+	public void doSave(Memento m) {
+		m.getChild("URL").setText(tfURL.getText());
+		m.getChild("Key").setText(tfKey.getText());
 	}
 }

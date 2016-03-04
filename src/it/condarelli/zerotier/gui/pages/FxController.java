@@ -9,8 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public class FxController implements FxAdapter {
-	protected static String title = "Untitled";
-	
+	protected final String title;
+	protected FxController() {
+		this("Unknown");
+	}
+	protected FxController(String string) {
+		title = string;
+	}
 	public interface Signal {
 		public void handle(String param);
 	}
@@ -47,7 +52,7 @@ public class FxController implements FxAdapter {
 		return n;
 	}
 	
-	static public String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 	
@@ -68,4 +73,12 @@ public class FxController implements FxAdapter {
 			c.register(cb);
 	}
 
+	@Override
+	public <T extends Object> T adapt(String what, Class<T> clazz) {
+		Object o = properties.get(what);
+		if (clazz.isInstance(o)) {
+			return clazz.cast(o);
+		}
+		return null;
+	}
 }

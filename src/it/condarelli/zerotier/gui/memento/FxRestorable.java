@@ -16,7 +16,7 @@ import javafx.scene.Node;
  * @author Tom Schindl
  *
  */
-public class RestorableControllerFactory extends FxLoader {
+public class FxRestorable extends FxLoader {
 
 	private static class Restorable {
 		private static final List<Restorable> l = new LinkedList<>();

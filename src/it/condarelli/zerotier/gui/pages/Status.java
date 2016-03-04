@@ -37,7 +37,7 @@ public class Status extends FxController {
 	@Override
 	protected void setNode(Node n) {
 		super.setNode(n);
-		zts = Login.getService();
+		zts = FxAdapter.service(ZTService.class);
 		if (zts != null) {
 			fetchStatus();
 			fetchNets();

@@ -13,6 +13,7 @@ import com.github.edouardswiac.zerotier.ZTService;
 import com.github.edouardswiac.zerotier.api.ZTCMember;
 import com.github.edouardswiac.zerotier.api.ZTCNetwork;
 import com.github.edouardswiac.zerotier.api.ZTController;
+import com.github.edouardswiac.zerotier.api.ZTStatus;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -95,7 +96,7 @@ public class Controller extends FxController {
 	@Override
 	protected void setNode(Node n) {
 		super.setNode(n);
-		zts = Login.getService();
+		zts = FxAdapter.service(ZTService.class);
 		if (zts != null) {
 			ZTController ztc = zts.controller();
 			if (ztc != null) {
@@ -286,7 +287,7 @@ public class Controller extends FxController {
 		dlg.getDialogPane().setHeaderText("Create new Network?");
 		dlg.getDialogPane().lookupButton(ButtonType.OK).disableProperty().bind(vs.invalidProperty());
 		dlg.showAndWait().ifPresent(result -> {
-			String ni = Login.getControllerAddress() + result;
+			String ni = FxAdapter.service(ZTStatus.class).getAddress() + result;
 			ZTCNetwork n = fillZTCNetwork(new ZTCNetwork(ni));
 			n = zts.updateCNetwork(n);
 			ni = n.getNwid();

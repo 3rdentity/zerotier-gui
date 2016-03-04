@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Can store a String, double, and int,
  * and have any number of other children of the same type.
  * 
- * @author Tom Schindl
+ * @author Mauro Condarelli
  *
  */
 @XmlRootElement
@@ -28,6 +28,7 @@ public class Memento {
 	@XmlElement(name = "child")
 	private Map<String,Memento> children = new HashMap<>();
 	
+	private static Memento root;
 	private static File getMementoFile() {
     String home = System.getProperty("user.home");
     File rootDir = new File(home, ".zerotier");
@@ -36,6 +37,12 @@ public class Memento {
     }
     File f = new File(rootDir, "memento");
     return f;
+	}
+	public static Memento get() {
+		if (root == null) {
+			root = loadMemento();
+		}
+		return root;
 	}
 	
 	/**
@@ -158,5 +165,9 @@ public class Memento {
 			}
 		}
 
+	}
+	public static void save() {
+		if (root != null)
+			storeMemento(getMementoFile(), root);
 	}
 }

@@ -1,5 +1,6 @@
 package it.condarelli.zerotier.gui;
 
+import it.condarelli.zerotier.gui.memento.Memento;
 import it.condarelli.zerotier.gui.pages.Controller;
 import it.condarelli.zerotier.gui.pages.FxController;
 import it.condarelli.zerotier.gui.pages.FxDialog;
@@ -27,11 +28,16 @@ public class Main extends Application {
 				root = (BorderPane) FxLoader.load(MainWindow.class);
 			Node n = FxDialog.create(primaryStage, StageStyle.UTILITY, Login.class);
 			registerLogin(n);
+			primaryStage.setWidth(350);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	@Override
+	public void stop() {
+		Memento.save();
+	}
 	private void registerLogin(Node n) {
 		FxController c = FxLoader.getController(n);
 		if (c != null)

@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 public class Status extends FxController {
+	protected static String title = "ZeroTier Client Status";
+	
 	@FXML Text						txtAddress;
 	@FXML Text						txtVersion;
 	@FXML Text						txtWorldId;

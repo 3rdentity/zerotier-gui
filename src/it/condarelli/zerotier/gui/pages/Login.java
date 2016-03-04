@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 public class Login extends FxController {
+	protected static String titile = "Login";
+	
 	@FXML TextField						tfURL;
 	@FXML TextField						tfKey;
 	@FXML Text								txtError;

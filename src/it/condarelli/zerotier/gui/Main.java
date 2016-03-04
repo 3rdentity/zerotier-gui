@@ -1,7 +1,8 @@
 package it.condarelli.zerotier.gui;
 
-import it.condarelli.zerotier.gui.pages.FxController;
 import it.condarelli.zerotier.gui.pages.Controller;
+import it.condarelli.zerotier.gui.pages.FxController;
+import it.condarelli.zerotier.gui.pages.FxDialog;
 import it.condarelli.zerotier.gui.pages.FxLoader;
 import it.condarelli.zerotier.gui.pages.Login;
 import it.condarelli.zerotier.gui.pages.Status;
@@ -9,24 +10,23 @@ import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 public class Main extends Application {
-	private BorderPane root;
+	public final static boolean	use_dialogs	= true;
+	private BorderPane					root;
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			root = (BorderPane) FxLoader.load(MainWindow.class);
-			Node n = FxController.create(Login.class);
+			if (!use_dialogs)
+				root = (BorderPane) FxLoader.load(MainWindow.class);
+			Node n = FxDialog.create(primaryStage, StageStyle.UTILITY, Login.class);
 			registerLogin(n);
-			root.setTop(n);
-			Scene scene = new Scene(root, 400, 400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			scene.getStylesheets().add(getClass().getResource("validation.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,53 +35,61 @@ public class Main extends Application {
 	private void registerLogin(Node n) {
 		FxController c = FxLoader.getController(n);
 		if (c != null)
-			c.register(new Callback<String, String>() {
-				@Override
-				public String call(String param) {
+			FxDialog.register(n, (String param) -> {
 					if (param.equals("LOG.OK")) {
-						Node n = FxController.create(Status.class);
-						root.setTop(n);
-						registerStatus(n);
-						n = FxController.create(Controller.class);
-						root.setBottom(n);
-						registerDispatcher(n);
+						if (use_dialogs) {
+							Window w = n.getScene().getWindow();
+							if (w instanceof Stage)
+								((Stage) w).close();
+							else
+								w.hide();
+						}
+						Node r;
+						r = FxController.create(c, Status.class);
+						registerStatus(r);
+						if (use_dialogs) {
+							Stage status = new Stage(StageStyle.UTILITY);
+							status.setTitle("ZeroTier Client Status");
+							Pane layout = new StackPane(r);
+							status.setScene(new Scene(layout));
+							status.show();
+						} else {
+							root.setTop(r);
+						}
+						r = FxController.create(c, Controller.class);
+						registerDispatcher(r);
+						if (use_dialogs) {
+							Stage controller = new Stage(StageStyle.UTILITY);
+							controller.setTitle("ZeroTier Controller Status");
+							Pane layout = new StackPane(r);
+							controller.setScene(new Scene(layout));
+							controller.show();
+						} else {
+							root.setBottom(r);
+						}
 					}
-					return null;
-				}
 			});
 	}
 
 	private void registerStatus(Node n) {
-		FxController c = FxLoader.getController(n);
-		if (c != null)
-			c.register(new Callback<String, String>() {
-				@Override
-				public String call(String param) {
+		FxController.register(n, (String param) -> {
 					switch (param) {
 					case "CTR.PRESENT":
-						Node n = FxController.create(Controller.class);
-						root.setCenter(n);
-						registerDispatcher(n);
+						Node r = FxController.create(Controller.class);
+						root.setCenter(r);
+						registerDispatcher(r);
 					}
-					return null;
-				}
 			});
 	}
 
 	private void registerDispatcher(Node n) {
-		FxController c = FxLoader.getController(n);
-		if (c != null)
-			c.register(new Callback<String, String>() {
-				@Override
-				public String call(String param) {
+		FxController.register(n, (String param) -> {
 					switch (param) {
 					case "CTR.PRESENT":
-						Node n = FxController.create(Controller.class);
-						root.setCenter(n);
-						registerDispatcher(n);
+						Node r = FxController.create(Controller.class);
+						root.setCenter(r);
+						registerDispatcher(r);
 					}
-					return null;
-				}
 			});
 	}
 

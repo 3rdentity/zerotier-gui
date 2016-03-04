@@ -141,7 +141,7 @@
 		</MigPane>
 		<MigPane visible="false" fx:id="mpMembers" cols="[right, grow][]" layout="wrap 2"
 			MigPane.cc="dock east, hidemode 2">
-			<Text text="...member..." fx:id="txtMember" MigPane.cc="grow" />
+			<Text text="...member..." fx:id="txtMember" MigPane.cc="grow, wmax 300" />
 			<ImageView fx:id="ivMOK">
 				<image>
 					<Image url="@icons/24x24/dialog-question-2.png" />
@@ -159,15 +159,15 @@
 					</ImageView>
 				</graphic>
 			</Button>
-			<MigPane fx:id="mpMember" cols="[right, grow]" layout="ins 0, wrap 2"
+			<MigPane fx:id="mpMember" cols="[right, grow]" layout="ins 0, wrap 1"
 				MigPane.cc="span, growx">
-				<CheckBox text="Authorized" fx:id="cbAuthorized" MigPane.cc="span, grow" />
-				<CheckBox text="Bridging" fx:id="cbBridging" MigPane.cc="span, grow" />
-				<TitledPane text="IP Assign" MigPane.cc="span, grow" >
-					<ListView fx:id="lvIP" MigPane.cc="span, growx" />
+				<CheckBox text="Authorized" onAction="#onMAuth" fx:id="cbAuthorized" MigPane.cc="growx" />
+				<CheckBox text="Bridging" onAction="#onMBrid" fx:id="cbBridging" MigPane.cc="growx" />
+				<TitledPane text="IP Assign" MigPane.cc="growx" >
+					<ListView fx:id="lvIPs" MigPane.cc="growx" />
 				</TitledPane>
-				<TitledPane text="Last log" expanded="false" MigPane.cc="span, grow" >
-					<ListView fx:id="lvLog" MigPane.cc="span, growx" />
+				<TitledPane text="Last log" expanded="false" MigPane.cc="growx" >
+					<ListView fx:id="lvLog" MigPane.cc="growx" />
 				</TitledPane>
 			</MigPane>
 		</MigPane>

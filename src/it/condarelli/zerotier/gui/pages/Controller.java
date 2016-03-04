@@ -17,6 +17,7 @@ import com.github.edouardswiac.zerotier.api.ZTController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -39,6 +40,8 @@ import javafx.stage.Modality;
 import javafx.util.Callback;
 
 public class Controller extends FxController {
+	protected static String title = "ZeroTier Controller Status";
+
 	private final class ChangeHandler implements ChangeListener<Object> {
 		@Override
 		public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
@@ -46,40 +49,40 @@ public class Controller extends FxController {
 		}
 	}
 
-	@FXML private MigPane						mpDispatcher;
-	@FXML private Text							txtInstanceId;
-	@FXML private ImageView					ivOK;
-	@FXML private ComboBox<String>	cbNetworks;
-	@FXML private MigPane						mpNetwork;
-	@FXML private TextField					tfName;
-	@FXML private ToggleButton			tbPrivate;
-	@FXML private ImageView					ivPrivate;
-	@FXML private ComboBox<String>	cbAssignModeV4;
-	@FXML private ToggleButton			tbBroadcast;
-	@FXML private ImageView					ivBroadcast;
-	@FXML private ComboBox<String>	cbAssignModeV6;
-	@FXML private ToggleButton			tbBridging;
-	@FXML private ImageView					ivBridging;
-	@FXML private Button						btnDel;
-	@FXML private Button						btnNew;
-	@FXML private Button						btnSave;
+	@FXML private MigPane							mpDispatcher;
+	@FXML private Text								txtInstanceId;
+	@FXML private ImageView						ivOK;
+	@FXML private ComboBox<String>		cbNetworks;
+	@FXML private MigPane							mpNetwork;
+	@FXML private TextField						tfName;
+	@FXML private ToggleButton				tbPrivate;
+	@FXML private ImageView						ivPrivate;
+	@FXML private ComboBox<String>		cbAssignModeV4;
+	@FXML private ToggleButton				tbBroadcast;
+	@FXML private ImageView						ivBroadcast;
+	@FXML private ComboBox<String>		cbAssignModeV6;
+	@FXML private ToggleButton				tbBridging;
+	@FXML private ImageView						ivBridging;
+	@FXML private Button							btnDel;
+	@FXML private Button							btnNew;
+	@FXML private Button							btnSave;
 
-	@FXML MigPane										mpMembers;
-	@FXML Text											txtMember;
-	@FXML ImageView									ivMOK;
-	@FXML ComboBox<ZTCMember>				cbMembers;
-	@FXML Button										btnMRefresh;
-	@FXML MigPane										mpMember;
-	@FXML CheckBox									cbAuthorized;
-	@FXML CheckBox									cbBridging;
-	@FXML ListView<String>					lvIPs;
-	@FXML ListView<String>					lvLog;
+	@FXML private MigPane							mpMembers;
+	@FXML private Text								txtMember;
+	@FXML private ImageView						ivMOK;
+	@FXML private ComboBox<ZTCMember>	cbMembers;
+	@FXML private Button							btnMRefresh;
+	@FXML private MigPane							mpMember;
+	@FXML private CheckBox						cbAuthorized;
+	@FXML private CheckBox						cbBridging;
+	@FXML private ListView<String>		lvIPs;
+	@FXML private ListView<String>		lvLog;
 
-	private ZTService								zts;
-	private ZTCNetwork							ztcn;
+	private ZTService									zts;
+	private ZTCNetwork								ztcn;
 
-	private ValidationSupport				validator			= new ValidationSupport();
-	private ChangeHandler						changeHandler	= new ChangeHandler();
+	private ValidationSupport					validator			= new ValidationSupport();
+	private ChangeHandler							changeHandler	= new ChangeHandler();
 
 	// Controller() {
 	// super();
@@ -201,19 +204,19 @@ public class Controller extends FxController {
 	@FXML
 	void onToggleBridging() {
 		ivBridging.setImage(new Image(getClass()
-				.getResourceAsStream(tbBridging.isSelected() ? "icons/16x16/link.png" : "icons/16x16/link-break.png")));
+		    .getResourceAsStream(tbBridging.isSelected() ? "icons/16x16/link.png" : "icons/16x16/link-break.png")));
 	}
 
 	@FXML
 	void onToggleBroadcast() {
 		ivBroadcast.setImage(new Image(getClass()
-				.getResourceAsStream(tbBroadcast.isSelected() ? "icons/16x16/irkickflash.png" : "icons/16x16/irkickoff.png")));
+		    .getResourceAsStream(tbBroadcast.isSelected() ? "icons/16x16/irkickflash.png" : "icons/16x16/irkickoff.png")));
 	}
 
 	@FXML
 	void onTogglePrivate() {
 		ivPrivate.setImage(new Image(getClass().getResourceAsStream(
-				tbPrivate.isSelected() ? "icons/16x16/object-locked.png" : "icons/16x16/object-unlocked.png")));
+		    tbPrivate.isSelected() ? "icons/16x16/object-locked.png" : "icons/16x16/object-unlocked.png")));
 	}
 
 	private boolean checkChanged() {
@@ -252,14 +255,14 @@ public class Controller extends FxController {
 
 	@FXML
 	void onDel() {
-		Alert dlg = createAlert(AlertType.CONFIRMATION);
-		dlg.setTitle("Delete Network");
-		dlg.getDialogPane().setContentText(
-				String.format("Network '%s' (%s) \nwill be DESTROYED, are you SURE?", ztcn.getName(), ztcn.getNwid()));
-		dlg.getDialogPane().setHeaderText("Destroy current Network?");
 		if (ztcn == null) {
 			(new Alert(AlertType.ERROR, "Current ZTCNetwork is null; nothing to delete!")).showAndWait();
 		} else {
+			Alert dlg = createAlert(AlertType.CONFIRMATION);
+			dlg.setTitle("Delete Network");
+			dlg.getDialogPane().setContentText(
+			    String.format("Network '%s' (%s) \nwill be DESTROYED, are you SURE?", ztcn.getName(), ztcn.getNwid()));
+			dlg.getDialogPane().setHeaderText("Destroy current Network?");
 			dlg.showAndWait().ifPresent(result -> {
 				if (result == ButtonType.OK) {
 					String nwid = ztcn.getNwid();
@@ -277,7 +280,7 @@ public class Controller extends FxController {
 		TextInputDialog dlg = new TextInputDialog("______");
 		ValidationSupport vs = new ValidationSupport();
 		vs.registerValidator(dlg.getEditor(), true, Validator
-				.createRegexValidator("Id must be 6 hex chars or 6 underscores", "______|\\p{XDigit}{6}", Severity.ERROR));
+		    .createRegexValidator("Id must be 6 hex chars or 6 underscores", "______|\\p{XDigit}{6}", Severity.ERROR));
 		dlg.setTitle("New Network");
 		dlg.getDialogPane().setContentText("Enter Network ID \n(or leave 6 underscores to \nhave it random generated)");
 		dlg.getDialogPane().setHeaderText("Create new Network?");
@@ -294,11 +297,11 @@ public class Controller extends FxController {
 
 	@FXML
 	void onSave() {
-		Alert dlg = createAlert(AlertType.CONFIRMATION);
-		dlg.setTitle("Save");
 		if (ztcn == null) {
 			(new Alert(AlertType.ERROR, "Current ZTCNetwork is null; can't save!")).showAndWait();
 		} else {
+			Alert dlg = createAlert(AlertType.CONFIRMATION);
+			dlg.setTitle("Save");
 			dlg.getDialogPane().setContentText("Update existing ZeroTier Network?");
 			dlg.getDialogPane().setHeaderText("ZeroTier Controller interaction");
 			dlg.showAndWait().ifPresent(result -> {
@@ -334,7 +337,7 @@ public class Controller extends FxController {
 
 	private void getMembers() {
 		if (ztcn != null) {
-			Map<String, Integer>	ml = zts.getCMembers(ztcn.getNwid());
+			Map<String, Integer> ml = zts.getCMembers(ztcn.getNwid());
 			List<ZTCMember> members = new ArrayList<>(ml.size());
 			for (String s : ml.keySet()) {
 				ZTCMember m = zts.getCMember(ztcn.getNwid(), s);
@@ -344,28 +347,32 @@ public class Controller extends FxController {
 				@Override
 				public ListCell<ZTCMember> call(ListView<ZTCMember> list) {
 					return new ListCell<ZTCMember>() {
-						@Override
-						protected void updateItem(ZTCMember member, boolean empty) {
-							super.updateItem(member, empty);
-							if (member == null | empty) {
-								setText(null);
-							} else {
-								Pane pane = new HBox();
-								if (member.isAuthorized()) {
-									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/dialog-accept.png").toExternalForm()));
-								} else {
-									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/dialog-block.png").toExternalForm()));
-								}
-								if (member.isActiveBridge()) {
-									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/irkickflash.png").toExternalForm()));
-								} else {
-									pane.getChildren().add(new ImageView(Controller.class.getResource("icons/16x16/irkickoff.png").toExternalForm()));
-								}
-								setGraphic(pane);
-								setText(member.getAddress());
-							}
-						}
-					};
+				    @Override
+				    protected void updateItem(ZTCMember member, boolean empty) {
+					    super.updateItem(member, empty);
+					    if (member == null | empty) {
+						    setText(null);
+					    } else {
+						    Pane pane = new HBox();
+						    if (member.isAuthorized()) {
+							    pane.getChildren().add(
+			                new ImageView(Controller.class.getResource("icons/16x16/dialog-accept.png").toExternalForm()));
+						    } else {
+							    pane.getChildren().add(
+			                new ImageView(Controller.class.getResource("icons/16x16/dialog-block.png").toExternalForm()));
+						    }
+						    if (member.isActiveBridge()) {
+							    pane.getChildren()
+			                .add(new ImageView(Controller.class.getResource("icons/16x16/irkickflash.png").toExternalForm()));
+						    } else {
+							    pane.getChildren()
+			                .add(new ImageView(Controller.class.getResource("icons/16x16/irkickoff.png").toExternalForm()));
+						    }
+						    setGraphic(pane);
+						    setText(member.getAddress());
+					    }
+				    }
+			    };
 				}
 			};
 			cbMembers.setButtonCell(cf.call(null));
@@ -374,12 +381,68 @@ public class Controller extends FxController {
 		}
 	}
 
+	private ZTCMember workCopy;
+
+	private ZTCMember getCopy() {
+		ZTCMember m = cbMembers.getValue();
+		if (null == m)
+			workCopy = null;
+		else {
+			if (null != workCopy)
+				if (workCopy.getNwid() != m.getNwid() || workCopy.getAddress() != m.getAddress())
+					workCopy = null;
+			if (null == workCopy) {
+				workCopy = m.clone();
+			}
+		}
+		return workCopy;
+	}
+
 	@FXML
-	public void onSelectMember() {
+	public void onSelectMember(ActionEvent e) {
+		ZTCMember m = cbMembers.getValue();
+		if (null != m) {
+			txtMember.setText(m.getIdentity());
+			cbAuthorized.setSelected(m.isAuthorized());
+			cbBridging.setSelected(m.isActiveBridge());
+			lvIPs.setItems(FXCollections.observableArrayList(m.getIpAssignments()));
+			checkMRefresh();
+			mpMember.setVisible(true);
+		} else {
+			txtMember.setText(null);
+			mpMember.setVisible(false);
+		}
 	}
 
 	@FXML
 	public void onMRefresh() {
+		if (null != workCopy) {
+			int idx = cbMembers.getSelectionModel().getSelectedIndex();
+			cbMembers.getItems().set(idx, workCopy);
+			// zts.updateCMember(workCopy);
+			workCopy = null;
+		}
+	}
+
+	@FXML
+	public void onMAuth() {
+		ZTCMember m = getCopy();
+		if (null != m)
+			m.setAuthorized(cbAuthorized.isSelected());
+		checkMRefresh();
+	}
+
+	@FXML
+	public void onMBrid() {
+		ZTCMember m = getCopy();
+		if (null != m)
+			m.setActiveBridge(cbBridging.isSelected());
+		checkMRefresh();
+	}
+
+	private void checkMRefresh() {
+		ZTCMember m = cbMembers.getValue();
+		btnMRefresh.setDisable(null != m && m.equals(workCopy));
 	}
 
 }

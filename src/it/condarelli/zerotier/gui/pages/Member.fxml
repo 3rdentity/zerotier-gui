@@ -15,24 +15,21 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TitledPane?>
+<?import it.condarelli.javafx.StatusIndicator?>
 
 <MigPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-		 fx:id="mpMember" cols="[right, grow][]" layout="wrap 2, hidemode 2">
+		 fx:id="mpMember" cols="[right, grow][]" layout="wrap 2">
 	<Text text="...network..." fx:id="txtNetwork" MigPane.cc="grow" />
-	<ImageView fx:id="ivMOK">
-		<image>
-			<Image url="@icons/24x24/dialog-question-2.png" />
-		</image>
-	</ImageView>
+	<StatusIndicator fx:id="status" />
 	<Text text="...member... ...very... ...long... ...address... ...string..." 
 		wrappingWidth="300" fx:id="txtMemberAddr" MigPane.cc="grow, wmax 350, span" />
 
 	<Text text="...member id..." fx:id="txtMemberId" MigPane.cc="grow" />
 	<Button fx:id="btnMSave" onAction="#onMSave">
 		<graphic>
-			<ImageView fx:id="ivSave" >
+			<ImageView fx:id="ivSave">
 				<image>
-					<Image url="@icons/16x16/view-refresh-3.png" />
+					<Image url="@icons/16x16/document-save-6.png" />
 				</image>
 			</ImageView>
 		</graphic>

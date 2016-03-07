@@ -12,6 +12,8 @@ import com.github.edouardswiac.zerotier.api.ZTCMember;
 import com.github.edouardswiac.zerotier.api.ZTCNetwork;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
 
+import it.condarelli.javafx.FxAdapter;
+import it.condarelli.javafx.FxDialog;
 import it.condarelli.javafx.StatusIndicator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -31,8 +33,8 @@ import javafx.stage.Modality;
 import javafx.util.Callback;
 
 public class Network extends FxDialog {
-  protected Network() {
-    super("ZeroTier Network Member");
+  public Network() {
+    super("ZeroTier Network Status");
   }
 
   @FXML private MigPane          mpNetwork;
@@ -51,11 +53,11 @@ public class Network extends FxDialog {
   @FXML private Button           btnNew;
   @FXML private Button           btnSave;
   @FXML private ComboBox<String> cbMembers;
-  @FXML private Button btnShow;
-  
+  @FXML private Button           btnShow;
+
   private ZTService              zts;
   private ZTCNetwork             ztcn;
-  private FxAdapter parent; 
+  private FxAdapter              parent;
 
   private static final Image     priv = new Image(Network.class.getResourceAsStream("icons/16x16/object-locked.png"));
   private static final Image     publ = new Image(Network.class.getResourceAsStream("icons/16x16/object-unlocked.png"));
@@ -67,15 +69,20 @@ public class Network extends FxDialog {
   @Override
   protected void initialize(FxAdapter parent) {
     this.parent = parent;
-    
-    status.select(status.add("updating", new Image(getClass().getResourceAsStream("icons/16x16/run-build-2.png")), null));
+
+    status
+        .select(status.add("updating", new Image(getClass().getResourceAsStream("icons/16x16/run-build-2.png")), null));
 
     zts = FxAdapter.service(ZTService.class);
     ztcn = parent.adapt("selected_network", ZTCNetwork.class);
 
     refresh();
 
-    status.select(status.add("ready", new Image(getClass().getResourceAsStream("icons/16x16/run-build-2.png")), null));
+    status
+        .select(status.add("ready", new Image(getClass().getResourceAsStream("icons/16x16/view-refresh-3.png")), ae -> {
+          ztcn = zts.getCNetwork(ztcn.getNwid());
+          refresh();
+        }));
   }
 
   protected void refresh() {
@@ -141,7 +148,7 @@ public class Network extends FxDialog {
           String nwid = ztcn.getNwid();
           zts.deleteCNetwork(nwid);
           @SuppressWarnings("unchecked")
-          Callback<String, Void>cb = parent.adapt("del_network", Callback.class);
+          Callback<String, Void> cb = parent.adapt("del_network", Callback.class);
           if (cb != null)
             cb.call(ztcn.getNwid());
           ztcn = null;
@@ -163,12 +170,12 @@ public class Network extends FxDialog {
     dlg.getDialogPane().lookupButton(ButtonType.OK).disableProperty().bind(vs.invalidProperty());
     dlg.showAndWait().ifPresent(result -> {
       String ni = FxAdapter.service(ZTStatus.class).getAddress() + result;
-      ZTCNetwork n = getCopy(); 
+      ZTCNetwork n = getCopy();
       n.initNetworkId(ni);
       n = zts.updateCNetwork(getCopy());
       ni = n.getNwid();
       @SuppressWarnings("unchecked")
-      Callback<String, Void>cb = parent.adapt("add_network", Callback.class);
+      Callback<String, Void> cb = parent.adapt("add_network", Callback.class);
       if (cb != null)
         cb.call(ni);
     });
@@ -217,15 +224,14 @@ public class Network extends FxDialog {
   void onSelectMember() {
     btnShow.setDisable(cbMembers.getValue() == null);
   }
-  
+
   @FXML
   void onShowMember() {
     String m = cbMembers.getValue();
     if (m != null && !m.trim().isEmpty()) {
-      FxDialog.create(this,  Member.class);
+      FxDialog.create(this, Member.class);
     }
   }
-
 
   protected void handleButtons() {
     boolean changed = isChanged();
@@ -233,7 +239,7 @@ public class Network extends FxDialog {
     btnNew.setDisable(false);
     btnSave.setDisable(!changed);
   }
-  
+
   @Override
   public <T extends Object> T adapt(String what, Class<T> clazz) {
     switch (what) {

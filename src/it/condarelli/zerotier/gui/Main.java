@@ -1,10 +1,10 @@
 package it.condarelli.zerotier.gui;
 
-import it.condarelli.zerotier.gui.memento.Memento;
+import it.condarelli.javafx.FxController;
+import it.condarelli.javafx.FxDialog;
+import it.condarelli.javafx.FxLoader;
+import it.condarelli.javafx.memento.Memento;
 import it.condarelli.zerotier.gui.pages.Controller;
-import it.condarelli.zerotier.gui.pages.FxController;
-import it.condarelli.zerotier.gui.pages.FxDialog;
-import it.condarelli.zerotier.gui.pages.FxLoader;
 import it.condarelli.zerotier.gui.pages.Login;
 import it.condarelli.zerotier.gui.pages.Status;
 import javafx.application.Application;

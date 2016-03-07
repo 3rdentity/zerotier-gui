@@ -8,6 +8,8 @@ import com.github.edouardswiac.zerotier.ZTService;
 import com.github.edouardswiac.zerotier.api.ZTCNetwork;
 import com.github.edouardswiac.zerotier.api.ZTController;
 
+import it.condarelli.javafx.FxAdapter;
+import it.condarelli.javafx.FxDialog;
 import it.condarelli.javafx.StatusIndicator;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -18,7 +20,7 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 public class Controller extends FxDialog {
-  protected Controller() {
+  public Controller() {
     super("ZeroTier Controller Status");
   }
 

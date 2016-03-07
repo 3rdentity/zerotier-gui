@@ -1,7 +1,7 @@
-package it.condarelli.zerotier.gui.pages;
+package it.condarelli.javafx;
 
-import it.condarelli.zerotier.gui.memento.Memento;
-import it.condarelli.zerotier.gui.memento.RestorableController;
+import it.condarelli.javafx.memento.Memento;
+import it.condarelli.javafx.memento.RestorableController;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;

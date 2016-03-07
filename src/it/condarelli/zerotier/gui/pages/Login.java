@@ -4,14 +4,16 @@ import com.github.edouardswiac.zerotier.ZTService;
 import com.github.edouardswiac.zerotier.ZTServiceImpl;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
 
-import it.condarelli.zerotier.gui.memento.Memento;
+import it.condarelli.javafx.FxAdapter;
+import it.condarelli.javafx.FxDialog;
+import it.condarelli.javafx.memento.Memento;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 public class Login extends FxDialog {
 	
-	protected Login() {
+	public Login() {
 		super("Login");
 	}
 

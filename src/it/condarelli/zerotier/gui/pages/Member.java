@@ -6,6 +6,9 @@ import com.github.edouardswiac.zerotier.ZTService;
 import com.github.edouardswiac.zerotier.api.ZTCMember;
 import com.github.edouardswiac.zerotier.api.ZTCNetwork;
 
+import it.condarelli.javafx.FxAdapter;
+import it.condarelli.javafx.FxDialog;
+import it.condarelli.javafx.StatusIndicator;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,13 +19,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class Member extends FxDialog {
-  protected Member() {
+  public Member() {
     super("ZeroTier Network Member");
   }
 
   @FXML private MigPane          mpMember;
   @FXML private Text             txtNetwork;
-  @FXML private ImageView        ivMOK;
+  @FXML private StatusIndicator  status;
   @FXML private Text             txtMemberAddr;
   @FXML private Text             txtMemberId;
   @FXML private Button           btnMSave;
@@ -40,6 +43,9 @@ public class Member extends FxDialog {
 
   @Override
   protected void initialize(FxAdapter parent) {
+    status
+        .select(status.add("updating", new Image(getClass().getResourceAsStream("icons/16x16/run-build-2.png")), null));
+
     zts = FxAdapter.service(ZTService.class);
     ztcm = parent.adapt("selected_member", ZTCMember.class);
     ztcn = parent.adapt("network", ZTCNetwork.class);
@@ -47,11 +53,31 @@ public class Member extends FxDialog {
     txtNetwork.setText(ztcn.getName() + " - " + ztcn.getNwid());
     refresh();
     checkMSave();
+    status
+        .select(status.add("ready", new Image(getClass().getResourceAsStream("icons/16x16/view-refresh-3.png")), ae -> {
+          ztcm = zts.getCMember(ztcm.getNwid(), ztcm.getAddress());
+          refresh();
+          checkMSave();
+        }));
+  }
+
+  private String wrap(String str, int siz) {
+    String[] sa = str.split(String.format("(?<=(?:[:]|\\G.{%d}))", siz));
+    StringBuilder sb = new StringBuilder();
+    boolean first = true;
+    for (String s : sa) {
+      if (first)
+        first = false;
+      else
+        sb.append('\n');
+      sb.append(s);
+    }
+    return sb.toString();
   }
 
   protected void refresh() {
     txtMemberAddr.setText(ztcm.getAddress());
-    txtMemberId.setText(ztcm.getIdentity());
+    txtMemberId.setText(wrap(ztcm.getIdentity(), 32));
     cbAuthorized.setSelected(ztcm.isAuthorized());
     cbBridging.setSelected(ztcm.isActiveBridge());
     lvIPs.setItems(FXCollections.observableArrayList(ztcm.getIpAssignments()));

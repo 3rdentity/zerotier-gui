@@ -1,4 +1,4 @@
-package it.condarelli.zerotier.gui.memento;
+package it.condarelli.javafx.memento;
 
 import java.io.File;
 import java.io.FileNotFoundException;

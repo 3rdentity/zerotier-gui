@@ -1,4 +1,4 @@
-package it.condarelli.zerotier.gui.memento;
+package it.condarelli.javafx.memento;
 
 /**
  * The base class for a JavaFX controller which is meant to be able to restore

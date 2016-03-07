@@ -1,11 +1,11 @@
-package it.condarelli.zerotier.gui.memento;
+package it.condarelli.javafx.memento;
 
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import it.condarelli.zerotier.gui.pages.FxLoader;
+import it.condarelli.javafx.FxLoader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 

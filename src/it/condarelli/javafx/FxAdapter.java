@@ -1,4 +1,4 @@
-package it.condarelli.zerotier.gui.pages;
+package it.condarelli.javafx;
 
 import java.util.HashMap;
 import java.util.Map;

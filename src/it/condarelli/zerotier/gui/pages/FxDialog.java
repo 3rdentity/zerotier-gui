@@ -2,8 +2,6 @@ package it.condarelli.zerotier.gui.pages;
 
 import it.condarelli.zerotier.gui.memento.Memento;
 import it.condarelli.zerotier.gui.memento.RestorableController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -14,7 +12,14 @@ import javafx.stage.Window;
 
 public class FxDialog extends FxController implements RestorableController {
 
+	static public Node create(FxController parent, Class<? extends FxController> clazz) {
+		return create(parent, null, StageStyle.UTILITY, clazz);
+	}
+
 	public static Node create(Stage stage, StageStyle style, Class<? extends FxController> clazz) {
+		return create(null, stage, style, clazz);
+	}
+	public static Node create(FxController parent, Stage stage, StageStyle style, Class<? extends FxController> clazz) {
 		Node n = FxController.create(clazz);
 		if (stage == null) {
 			stage = new Stage(style);
@@ -27,11 +32,17 @@ public class FxDialog extends FxController implements RestorableController {
 		scene.getStylesheets().add(clazz.getResource("validation.css").toExternalForm());
 		FxController c = FxLoader.getController(n);
 		if (c instanceof FxDialog) {
-			((FxDialog)c).setupMemento(stage);
+			FxDialog d = (FxDialog)c;
+			d.setupMemento(stage);
+			if (parent != null)
+				d.properties.put(FxAdapter.parent, parent);
+			d.initialize(parent);
 		}
 		stage.show();
 		return n;
 	}
+
+	protected void initialize(FxAdapter parent) {}
 
 	public static void close(Node n) {
 		Window w = n.getScene().getWindow();

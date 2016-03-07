@@ -2,21 +2,14 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import org.tbee.javafx.scene.layout.fxml.MigPane?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TitledPane?>
+<?import it.condarelli.javafx.*?>
+<?import it.condarelli.javafx.StatusIndicator?>
 
-<MigPane fx:id="mpDispatcher" cols="[right][left, grow][]"
+<MigPane fx:id="mpController" cols="[right][left, grow][]"
 	layout="ins panel, fillx, wrap 3" xmlns="http://javafx.com/javafx/8.0.65"
 	xmlns:fx="http://javafx.com/fxml/1">
 	<children>
@@ -29,147 +22,6 @@
 		</ImageView>
 		<ComboBox fx:id="cbNetworks" onAction="#onSelectNet"
 			MigPane.cc="span 2, grow" />
-		<Button fx:id="btnRefresh" onAction="#onRefresh">
-			<graphic>
-				<ImageView>
-					<image>
-						<Image url="@icons/16x16/view-refresh-3.png" />
-					</image>
-				</ImageView>
-			</graphic>
-		</Button>
-		<MigPane fx:id="mpNetwork" cols="[][right, grow][]" layout="ins 0, wrap 3"
-			MigPane.cc="span, grow">
-			<children>
-
-				<Label text="Short name:" />
-				<TextField fx:id="tfName" text="...name..." />
-				<ToggleButton fx:id="tbPrivate" onAction="#onTogglePrivate">
-					<graphic>
-						<ImageView fx:id="ivPrivate">
-							<image>
-								<Image url="@icons/16x16/object-locked.png" />
-							</image>
-						</ImageView>
-					</graphic>
-					<tooltip>
-						<Tooltip
-							text="Locked means this is a private network. All new peers will need authorization."
-							wrapText="true" />
-					</tooltip>
-				</ToggleButton>
-
-				<Label text="IPv4 assign mode:" />
-				<ComboBox fx:id="cbAssignModeV4" onAction="#onSelectAMV4">
-					<items>
-						<FXCollections fx:factory="observableArrayList">
-							<String fx:value="none" />
-							<String fx:value="zt" />
-							<String fx:value="dhcp" />
-						</FXCollections>
-					</items>
-				</ComboBox>
-				<ToggleButton fx:id="tbBroadcast" onAction="#onToggleBroadcast">
-					<graphic>
-						<ImageView fx:id="ivBroadcast">
-							<image>
-								<Image url="@icons/16x16/irkickoff.png" />
-							</image>
-						</ImageView>
-					</graphic>
-					<tooltip>
-						<Tooltip text="Allow broadacating on this network."
-							wrapText="true" />
-					</tooltip>
-				</ToggleButton>
-
-				<Label text="IPv6 assign mode:" />
-				<ComboBox fx:id="cbAssignModeV6" onAction="#onSelectAMV6">
-					<items>
-						<FXCollections fx:factory="observableArrayList">
-							<String fx:value="none" />
-							<String fx:value="zt" />
-							<String fx:value="dhcp" />
-						</FXCollections>
-					</items>
-				</ComboBox>
-				<ToggleButton fx:id="tbBridging" onAction="#onToggleBridging">
-					<graphic>
-						<ImageView fx:id="ivBridging">
-							<image>
-								<Image url="@icons/16x16/link-break.png" />
-							</image>
-						</ImageView>
-					</graphic>
-					<tooltip>
-						<Tooltip text="Allow bridging on this network." wrapText="true" />
-					</tooltip>
-				</ToggleButton>
-			</children>
-		</MigPane>
-		<MigPane cols="0:push[right][right][right]" layout="ins 0, wrap 3"
-			MigPane.cc="span, grow">
-			<children>
-				<Button text="Del" fx:id="btnDel" onAction="#onDel">
-					<graphic>
-						<ImageView>
-							<image>
-								<Image url="@icons/16x16/document-close-4.png" />
-							</image>
-						</ImageView>
-					</graphic>
-				</Button>
-				<Button text="New" fx:id="btnNew" onAction="#onNew">
-					<graphic>
-						<ImageView>
-							<image>
-								<Image url="@icons/16x16/document-new-6.png" />
-							</image>
-						</ImageView>
-					</graphic>
-				</Button>
-				<Button text="Save" fx:id="btnSave" onAction="#onSave">
-					<graphic>
-						<ImageView>
-							<image>
-								<Image url="@icons/16x16/document-save-6.png" />
-							</image>
-						</ImageView>
-					</graphic>
-				</Button>
-			</children>
-		</MigPane>
-		<MigPane visible="false" fx:id="mpMembers" cols="[right, grow][]" layout="wrap 2"
-			MigPane.cc="dock east, hidemode 2">
-			<Text text="...member..." fx:id="txtMember" MigPane.cc="grow, wmax 300" />
-			<ImageView fx:id="ivMOK">
-				<image>
-					<Image url="@icons/24x24/dialog-question-2.png" />
-				</image>
-			</ImageView>
-
-			<ComboBox fx:id="cbMembers" onAction="#onSelectMember"
-				MigPane.cc="grow" />
-			<Button fx:id="btnMRefresh" onAction="#onMRefresh">
-				<graphic>
-					<ImageView>
-						<image>
-							<Image url="@icons/16x16/view-refresh-3.png" />
-						</image>
-					</ImageView>
-				</graphic>
-			</Button>
-			<MigPane fx:id="mpMember" cols="[right, grow]" layout="ins 0, wrap 1"
-				MigPane.cc="span, growx">
-				<CheckBox text="Authorized" onAction="#onMAuth" fx:id="cbAuthorized" MigPane.cc="growx" />
-				<CheckBox text="Bridging" onAction="#onMBrid" fx:id="cbBridging" MigPane.cc="growx" />
-				<TitledPane text="IP Assign" MigPane.cc="growx" >
-					<ListView fx:id="lvIPs" MigPane.cc="growx" />
-				</TitledPane>
-				<TitledPane text="Last log" expanded="false" MigPane.cc="growx" >
-					<ListView fx:id="lvLog" MigPane.cc="growx" />
-				</TitledPane>
-			</MigPane>
-		</MigPane>
+		<StatusIndicator fx:id="status" />
 	</children>
 </MigPane>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<?import org.tbee.javafx.scene.layout.fxml.MigPane?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+
+<MigPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+		 fx:id="mpMember" cols="[right, grow][]" layout="wrap 2, hidemode 2">
+	<Text text="...network..." fx:id="txtNetwork" MigPane.cc="grow" />
+	<ImageView fx:id="ivMOK">
+		<image>
+			<Image url="@icons/24x24/dialog-question-2.png" />
+		</image>
+	</ImageView>
+	<Text text="...member... ...very... ...long... ...address... ...string..." 
+		wrappingWidth="300" fx:id="txtMemberAddr" MigPane.cc="grow, wmax 350, span" />
+
+	<Text text="...member id..." fx:id="txtMemberId" MigPane.cc="grow" />
+	<Button fx:id="btnMSave" onAction="#onMSave">
+		<graphic>
+			<ImageView fx:id="ivSave" >
+				<image>
+					<Image url="@icons/16x16/view-refresh-3.png" />
+				</image>
+			</ImageView>
+		</graphic>
+	</Button>
+	
+	<MigPane cols="[right, grow]" layout="ins 0, wrap 1"
+		MigPane.cc="span, growx">
+		<CheckBox text="Authorized" onAction="#onMAuth" fx:id="cbAuthorized" MigPane.cc="growx" />
+		<CheckBox text="Bridging" onAction="#onMBrid" fx:id="cbBridging" MigPane.cc="growx" />
+		<TitledPane text="IP Assign" MigPane.cc="growx" >
+			<ListView fx:id="lvIPs" MigPane.cc="growx" />
+		</TitledPane>
+		<TitledPane text="Last log" expanded="false" MigPane.cc="growx" >
+			<ListView fx:id="lvLog" MigPane.cc="growx" />
+		</TitledPane>
+	</MigPane>
+</MigPane>

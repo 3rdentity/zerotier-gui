@@ -3,21 +3,47 @@
 <?import java.lang.*?>
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.Group?>
 
 <?import org.tbee.javafx.scene.layout.fxml.MigPane?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Button?>
 
 <MigPane xmlns:fx="http://javafx.com/fxml/1" layout="wrap 4" cols="[right][left, grow]20[right][left, grow]" >
 	<Label text="Address:" /><Text text="...address..." fx:id="txtAddress"/>
 	<Label text="Version:" /><Text text="...version..." fx:id="txtVersion" />
 	<Label text="World id:" /><Text text="...world id..." fx:id="txtWorldId" />
 	<Label text="Online:" /><Text text="...online..." fx:id="txtOnline" />
-	<MigPane fx:id="mpNets" layout="fillx, ins 0, wrap 2" MigPane.cc="span, grow" cols="[grow][]" >
-		<ComboBox fx:id="cbNets" onAction="#onSelect" MigPane.cc="grow"/><Button text="Refresh" onAction="#onRefresh" />
+	<MigPane fx:id="mpNets" layout="fillx, ins 0, wrap 4" MigPane.cc="span, grow" cols="[grow][][][]" >
+		<ComboBox fx:id="cbNets" onAction="#onSelect" MigPane.cc="grow"/>
+		<Button fx:id="btnRefresh" onAction="#onRefresh" >
+			<graphic>
+				<ImageView>
+					<image>
+						<Image url="@icons/16x16/view-refresh-3.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+		<Button fx:id="btnDel" onAction="#onDel" >
+			<graphic>
+				<ImageView>
+					<image>
+						<Image url="@icons/16x16/document-close-4.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+		<Button fx:id="btnNew" onAction="#onNew" >
+			<graphic>
+				<ImageView>
+					<image>
+						<Image url="@icons/16x16/document-new-6.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
 		<MigPane fx:id="mpNet" layout="fillx, ins 0, wrap 4" MigPane.cc="span, grow" cols="[right][left, grow, fill]20[right][left, grow, fill]" >
 			<Label text="Name:" /><Text text="...name..." fx:id="txtNName" MigPane.cc="" />
 			<Label text="Net Id:" /><Text text="...net id..." fx:id="txtNId" />

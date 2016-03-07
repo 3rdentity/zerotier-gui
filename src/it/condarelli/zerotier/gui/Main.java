@@ -9,23 +9,17 @@ import it.condarelli.zerotier.gui.pages.Login;
 import it.condarelli.zerotier.gui.pages.Status;
 import javafx.application.Application;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 public class Main extends Application {
-	public final static boolean	use_dialogs	= true;
 	private BorderPane					root;
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			if (!use_dialogs)
-				root = (BorderPane) FxLoader.load(MainWindow.class);
 			Node n = FxDialog.create(primaryStage, StageStyle.UTILITY, Login.class);
 			registerLogin(n);
 			primaryStage.setWidth(350);
@@ -43,36 +37,16 @@ public class Main extends Application {
 		if (c != null)
 			FxDialog.register(n, (String param) -> {
 					if (param.equals("LOG.OK")) {
-						if (use_dialogs) {
 							Window w = n.getScene().getWindow();
 							if (w instanceof Stage)
 								((Stage) w).close();
 							else
 								w.hide();
-						}
 						Node r;
-						r = FxController.create(c, Status.class);
+						r = FxDialog.create(c, Status.class);
 						registerStatus(r);
-						if (use_dialogs) {
-							Stage status = new Stage(StageStyle.UTILITY);
-							status.setTitle("ZeroTier Client Status");
-							Pane layout = new StackPane(r);
-							status.setScene(new Scene(layout));
-							status.show();
-						} else {
-							root.setTop(r);
-						}
-						r = FxController.create(c, Controller.class);
+						r = FxDialog.create(c, Controller.class);
 						registerDispatcher(r);
-						if (use_dialogs) {
-							Stage controller = new Stage(StageStyle.UTILITY);
-							controller.setTitle("ZeroTier Controller Status");
-							Pane layout = new StackPane(r);
-							controller.setScene(new Scene(layout));
-							controller.show();
-						} else {
-							root.setBottom(r);
-						}
 					}
 			});
 	}
